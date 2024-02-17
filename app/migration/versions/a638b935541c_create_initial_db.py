@@ -38,6 +38,7 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['customer_id'], ['customers.id'], ),
     sa.ForeignKeyConstraint(['restaurant_id'], ['restaurants.id'], ),
     sa.PrimaryKeyConstraint('restaurant_id')
+
     )
     op.create_table('reviews',
     sa.Column('id', sa.Integer(), nullable=False),
