@@ -15,8 +15,14 @@ if __name__ == "__main__":
     # session.query(Review).delete() #clear table
     print("before")
 
-    ipdb.set_trace()
-
+    
+    cust = session.get(Customer, 2)
+    rest = session.get(Restaurant,2)
+    rest2 = session.get(Restaurant, 4)
+    rev = session.get(Review, 2)
+    # ipdb.set_trace()
+    
+    
     customer = [Customer(
         first_name= fake.name(),
         last_name= fake.name()
@@ -27,13 +33,33 @@ if __name__ == "__main__":
         price = random.randint(100, 3500)
     ) for _ in range(50)]
 
-    review = [Review(
+
+    review = []
+    for i in range(50):
+        review1 = Review(
         star_rating = random.randint(1,6),
         comment = fake.sentence(),
         customer_id = i,
-        restaurant_id= i
-    ) for i in range(50)]
-    print("After")
+        restaurant_id= i) 
+        review.append(review1)
+        resto = restaurant[i]
+        kastoma = customer[i]
+        resto.customers.append(kastoma)
+
+    # review = [Review(
+    #     star_rating = random.randint(1,6),
+    #     comment = fake.sentence(),
+    #     customer_id = i,
+    #     restaurant_id= i        
+    # ) for i in range(50)]
+    # print("After")
+
+    # for i in range(1, 50):
+    #     resto = restaurant[i]
+    #     kastoma = customer[i]
+    #     resto.customers.append(kastoma)
+        
+
     # session.query(review).delete() #clear table
     session.add_all(customer)
     session.commit()
