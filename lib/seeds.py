@@ -8,7 +8,7 @@ import ipdb
 fake = Faker()
 
 if __name__ == "__main__":
-    engine = create_engine("sqlite:///restaurant.db")
+    engine = create_engine("sqlite:///db/restaurant.db")
     Session = sessionmaker(bind=engine)
     session = Session()
 
@@ -20,12 +20,12 @@ if __name__ == "__main__":
     rest = session.get(Restaurant,2)
     rest2 = session.get(Restaurant, 4)
     rev = session.get(Review, 2)
-    # ipdb.set_trace()
+    ipdb.set_trace()
     
     
     customer = [Customer(
-        first_name= fake.name(),
-        last_name= fake.name()
+        first_name= fake.first_name(),
+        last_name= fake.last_name()
     ) for _ in range(50)]
 
     restaurant = [Restaurant(
@@ -44,7 +44,7 @@ if __name__ == "__main__":
         review.append(review1)
         resto = restaurant[i]
         kastoma = customer[i]
-        resto.customers.append(kastoma)
+        #resto.restaurants.append(kastoma)
 
     # review = [Review(
     #     star_rating = random.randint(1,6),
@@ -74,3 +74,4 @@ if __name__ == "__main__":
     review1 = session.query(Review).get(1)
     print(review1)
     print("Done")
+

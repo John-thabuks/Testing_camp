@@ -6,7 +6,7 @@ from sqlalchemy import delete
 
 BASE = declarative_base()
 
-engine = create_engine("sqlite:///restaurant.db")
+engine = create_engine("sqlite:///db/restaurant.db")
 Session = sessionmaker(bind=engine)
 session = Session()
 
@@ -71,7 +71,7 @@ class Customer(BASE):
     #One-many relationship: parent to child accessed parent.children
     #children will take foreignkey
     reviews = relationship("Review", backref="customer", cascade=("all, delete"))
-    restaurants = relationship("Restaurant", secondary= restaurant_customer, back_populates="customers2")
+    restaurants = relationship("Restaurant", secondary= restaurant_customer, back_populates="customers")
 
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
@@ -151,7 +151,7 @@ class Review(BASE):
     def full_review(self):
         #Review for {insert restaurant name} by {insert customer's full name}: {insert review star_rating} stars.
         restaurant_name = self.restaurant.name
-        customer_full_name =f"{self.first_name} {self.last_name}"
+        customer_full_name =f"{self.customer.first_name} {self.customer.last_name}"
         rating = self.star_rating
         return f"Review for {restaurant_name} by {customer_full_name}: {rating} stars."
 
